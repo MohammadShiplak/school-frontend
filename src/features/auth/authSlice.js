@@ -1,6 +1,20 @@
 // src/features/auth/authSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
+
+// _________ Helper : decode token to get user info _______________
+
+// The JWT token contains hidden info like name,email, role
+// jwtDecode() extracts that info so we can show it in the UI
+
+const decodeToken = (token) => {
+  try {
+    return jwtDecode(token);
+  } catch {
+    return null;
+  }
+};
 
 // ── Async Thunk: Login ───────────────────────────────────────
 export const loginUser = createAsyncThunk(
@@ -44,10 +58,14 @@ const authSlice = createSlice({
   name: "auth",
   initialState: {
     token: localStorage.getItem("token") || null,
-    loading: false,
-    error: null,
+
+    user: localStorage.getItem("token")
+      ? decodeToken(localStorage.getItem("toke"))
+      : null,
 
     //-- Register state
+    loading: false,
+    error: null,
     registerLoading: false,
     registerError: null,
     registerSuccess: false,
@@ -56,6 +74,7 @@ const authSlice = createSlice({
     logout: (state) => {
       state.token = null;
       state.error = null;
+      state.user = null;
       state.loading = false; // ← added
       localStorage.removeItem("token");
     },
@@ -78,6 +97,8 @@ const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
         state.token = action.payload;
+        // Decode token and save user info to state
+        state.user = decodeToken(action.payload);
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
@@ -112,7 +133,7 @@ export const selectToken = (state) => state.auth.token;
 export const selectIsAuthenticated = (state) => !!state.auth.token;
 export const selectAuthLoading = (state) => state.auth.loading;
 export const selectAuthError = (state) => state.auth.error;
-
+export const selectUser = (state) => state.auth.user;
 //Register selectors
 
 export const selectRegisterLoading = (state) => state.auth.registerLoading;

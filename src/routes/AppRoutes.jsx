@@ -3,6 +3,7 @@ import LoginPage from "../pages/LoginPage";
 import ProtectedRoute from "../components/ProtectedRoute";
 import DashboardPage from "../pages/DashboardPage";
 import RegisterPage from "../pages/RegisterPage";
+import DashboardLayout from "../components/DashboardLayout";
 
 const AppRoutes = () => {
   return (
@@ -10,6 +11,7 @@ const AppRoutes = () => {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route element={<ProtectedRoute />}>
+        <Route path="/dashboard" element={<DashboardLayout />} />
         <Route path="/dashboard" element={<DashboardPage />} />
       </Route>{" "}
       <Route path="*" element={<Navigate to="/login" replace />} />
