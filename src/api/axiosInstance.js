@@ -3,8 +3,8 @@
 import axios from "axios";
 
 // Create one Axios instance with your API base URL
-const axiosInstance = axios.create({
-  baseURL: "https://localhost:7195", // 👈 change port to match yours
+export const axiosInstance = axios.create({
+  baseURL: "https://localhost:7001", // 👈 change port to match yours
 });
 
 // ── Request Interceptor ──────────────────────────────────────

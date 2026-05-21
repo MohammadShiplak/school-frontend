@@ -4,7 +4,7 @@ import ProtectedRoute from "../components/ProtectedRoute";
 import DashboardPage from "../pages/DashboardPage";
 import RegisterPage from "../pages/RegisterPage";
 import DashboardLayout from "../components/DashboardLayout";
-
+import StudentsPage from "../pages/StudentsPage";
 const AppRoutes = () => {
   return (
     <Routes>
@@ -13,6 +13,7 @@ const AppRoutes = () => {
       <Route element={<ProtectedRoute />}>
         <Route path="/dashboard" element={<DashboardLayout />} />
         <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/students" element={<StudentsPage />} /> {/* 👈 add */}
       </Route>{" "}
       <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
