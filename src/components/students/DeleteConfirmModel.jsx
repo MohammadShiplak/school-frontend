@@ -4,7 +4,7 @@ export const DeleteConfirmModal = ({
   isOpen,
   onClose,
   onConfirm,
-  studentName,
+  teacherName,
   deleting,
 }) => {
   if (!isOpen) return null;
@@ -36,12 +36,10 @@ export const DeleteConfirmModal = ({
           </svg>
         </div>
 
-        <h3 className="text-base font-bold text-slate-900 mb-1">
-          Delete Student File
-        </h3>
+        <h3 className="text-base font-bold text-slate-900 mb-1">Delete</h3>
         <p className="text-sm text-slate-500 px-2 mb-5">
           Are you sure you want to delete{" "}
-          <span className="font-semibold text-slate-800">{studentName}</span>?
+          <span className="font-semibold text-slate-800">{teacherName}</span>?
           This action is permanent.
         </p>
 

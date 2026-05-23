@@ -63,6 +63,7 @@ export const removeStudent = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       await deleteStudent(id);
+      return id;
     } catch (error) {
       return rejectWithValue("Failed to delete student");
     }
@@ -72,7 +73,7 @@ export const removeStudent = createAsyncThunk(
 // Slice  _____________________________________________________
 
 export const studentSlice = createSlice({
-  name: "students=",
+  name: "students",
   initialState: {
     students: [],
     totalRecords: 0,
@@ -103,7 +104,7 @@ export const studentSlice = createSlice({
     //______________Fetch All ______________________________________
     builder
       .addCase(fetchStudents.pending, (state) => {
-        ((state.loading = true), state.error);
+        ((state.loading = true), (state.error = null));
       })
       .addCase(fetchStudents.fulfilled, (state, action) => {
         state.loading = false;
@@ -111,7 +112,6 @@ export const studentSlice = createSlice({
         state.totalRecords = action.payload.totalRecords;
         state.totalPages = action.payload.totalPages;
         state.pageNumber = action.payload.pageNumber;
-        console.log("API response:", action.payload);
       })
       .addCase(fetchStudents.rejected, (state, action) => {
         state.loading = false;
@@ -119,18 +119,18 @@ export const studentSlice = createSlice({
       })
 
       // _____Create  ___________________________________________________________
-      .addCase(createStudent.pending, (state, action) => {
-        state.submitting = false;
-        // add new student to beginning of list
-
-        state.students.unshift(action.payload);
-        state.totalRecords += 1;
+      .addCase(createStudent.pending, (state) => {
+        state.submitting = true;
       })
       .addCase(createStudent.rejected, (state, action) => {
         state.submitting = false;
         state.submitError = action.payload;
       })
-
+      .addCase(createStudent.fulfilled, (state, action) => {
+        state.submitting = false;
+        state.students.unshift(action.payload);
+        state.totalRecords += 1;
+      })
       //________ Edit ______________________________________________________________
       .addCase(editStudent.pending, (state) => {
         state.submitting = true;
@@ -154,7 +154,7 @@ export const studentSlice = createSlice({
       //______Delete _________________________________________________________
 
       .addCase(removeStudent.pending, (state) => {
-        state.deleting = false;
+        state.deleting = true;
       })
       .addCase(removeStudent.fulfilled, (state, action) => {
         state.deleting = false;
