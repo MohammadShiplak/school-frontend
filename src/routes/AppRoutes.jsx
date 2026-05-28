@@ -7,11 +7,13 @@ import DashboardLayout from "../components/DashboardLayout";
 import StudentsPage from "../pages/StudentsPage";
 import TeacherForm from "../components/teachers/TeacherForm";
 import TeacherPage from "../pages/TeachersPage";
+import AttendancePage from "../pages/AttendancePage";
 const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<LoginPage />} />
       <Route element={<ProtectedRoute />}>
+        <Route path="/attendance" element={<AttendancePage />} />
         <Route path="/dashboard" element={<DashboardLayout />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/students" element={<StudentsPage />} />
