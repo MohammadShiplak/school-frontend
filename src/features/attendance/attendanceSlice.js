@@ -25,10 +25,6 @@ export const fetchAttendances = createAsyncThunk(
     try {
       const response = await getAllAttendances();
 
-      // ADD THIS TEMPORARILY
-      console.log("Full response:", response);
-      console.log("Response data:", response.data);
-
       return response.data;
     } catch (error) {
       // ADD THIS TOO

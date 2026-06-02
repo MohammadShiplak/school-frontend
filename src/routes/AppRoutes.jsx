@@ -8,6 +8,7 @@ import StudentsPage from "../pages/StudentsPage";
 import TeacherForm from "../components/teachers/TeacherForm";
 import TeacherPage from "../pages/TeachersPage";
 import AttendancePage from "../pages/AttendancePage";
+import HomeworkPage from "../pages/HomeworkPage";
 const AppRoutes = () => {
   return (
     <Routes>
@@ -18,6 +19,7 @@ const AppRoutes = () => {
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/students" element={<StudentsPage />} />
         <Route path="/teachers" element={<TeacherPage />} />
+        <Route path="/homework" element={<HomeworkPage />} />
       </Route>{" "}
       <Route path="*" element={<LoginPage />} />
     </Routes>
