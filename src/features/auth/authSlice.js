@@ -34,15 +34,42 @@ export const loginUser = createAsyncThunk(
     }
   },
 );
+
+export const getProfileImageUrl = (decodeToken) => {
+  if (!decodeToken || !decodeToken.profileImage) return null;
+
+  if (decodeToken.profileImage === "") return null;
+
+  const baseUrl = import.meta.env.VITE_API_URL?.replace("/api", "") ?? "";
+  return `${baseUrl}/${decodeToken.profileImage}`;
+};
+
 // Register
 export const registerUser = createAsyncThunk(
   "auth/register", // unique name for this action
   async (userData, { rejectWithValue }) => {
     // userData = { userName, email, password, role, isActive }
     try {
+      const formData = new FormData();
+
+      formData.append("userName", userData.userName);
+      formData.append("email", userData.email);
+      formData.append("password", userData.password);
+      formData.append("role", userData.role);
+      formData.append("isActive", userData.isActive);
+
+      if (userData.profileImage) {
+        formData.append("profileImage", userData.profileImage);
+      }
+
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/Auth/register`,
-        userData, // send form data to backend
+        formData, // send form data to backend
+        {
+          headers: {
+            "Content-Type": "multipart/form-data", // tell backend it's form data
+          },
+        },
       );
       return response.data; // "User registered successfully"
     } catch (error) {

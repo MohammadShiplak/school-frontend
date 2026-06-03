@@ -1,8 +1,13 @@
 // src/components/Navbar.jsx
+import { useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { logout, selectUser } from "../features/auth/authSlice";
+import {
+  logout,
+  selectUser,
+  getProfileImageUrl,
+} from "../features/auth/authSlice";
 import { getClaim } from "../utils/tokenHelper";
 
 /**
@@ -14,9 +19,14 @@ export const Navbar = ({ onToggleSidebar }) => {
   const navigate = useNavigate();
   const user = useSelector(selectUser);
 
+  // Local state to track broken avatar asset downloads
+  const [imageError, setImageError] = useState(false);
+
   // Safely evaluate user properties with fallbacks
   const userName = getClaim(user, "name") || "Alex Rivera";
   const userRole = getClaim(user, "role") || "System Admin";
+
+  const profileImageUrl = getProfileImageUrl(user);
   const initials = userName?.[0]?.toUpperCase() || "A";
 
   const handleLogout = () => {
@@ -99,9 +109,9 @@ export const Navbar = ({ onToggleSidebar }) => {
         </div>
 
         {/* User Identity Segment */}
-        <div className="flex items-center gap-3 pl-2 border-l border-slate-100">
+        <div className="flex items-center gap-3 pl-4 border-l border-slate-200">
           <div className="text-right hidden sm:block">
-            <p className="text-xs font-semibold text-slate-800 leading-none mb-0.5">
+            <p className="text-xs font-semibold text-slate-800 leading-none mb-1">
               {userName}
             </p>
             <p className="text-[10px] text-slate-400 font-medium tracking-wide">
@@ -109,16 +119,25 @@ export const Navbar = ({ onToggleSidebar }) => {
             </p>
           </div>
 
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center text-white font-bold text-sm shadow-sm select-none">
-            {initials}
-          </div>
+          {profileImageUrl && !imageError ? (
+            <img
+              src={profileImageUrl}
+              alt={`${userName}'s profile`}
+              className="w-9 h-9 rounded-xl object-cover border-2 border-indigo-50 shadow-sm"
+              onError={() => setImageError(true)}
+            />
+          ) : (
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center text-white font-bold text-sm shadow-sm select-none">
+              {initials}
+            </div>
+          )}
         </div>
 
         {/* Action: Logout */}
         <button
           type="button"
           onClick={handleLogout}
-          className="inline-flex items-center justify-center gap-2 px-3.5 py-2 bg-slate-50 hover:bg-rose-50 border border-slate-200 hover:border-rose-100 rounded-xl text-xs font-semibold text-slate-600 hover:text-rose-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-rose-500/20 active:scale-95"
+          className="inline-flex items-center justify-center gap-2 px-3.5 py-2 bg-slate-50 hover:bg-rose-50/60 border border-slate-200/80 hover:border-rose-100 rounded-xl text-xs font-semibold text-slate-600 hover:text-rose-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-rose-500/20 active:scale-95"
         >
           <svg
             className="w-4 h-4 shrink-0"
@@ -133,7 +152,7 @@ export const Navbar = ({ onToggleSidebar }) => {
               d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
             />
           </svg>
-          <span className="hidden xs:inline">Logout</span>
+          <span className="hidden sm:inline">Logout</span>
         </button>
       </div>
     </header>
