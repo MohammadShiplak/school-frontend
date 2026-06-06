@@ -9,7 +9,7 @@ import {
   getProfileImageUrl,
 } from "../features/auth/authSlice";
 import { getClaim } from "../utils/tokenHelper";
-
+import NotificationBell from "./NotificationBell";
 /**
  * Clean, decoupled top-level navigation header component built to match
  * the modern SaaS/shadcn design patterns used in the EduPulse Portal.
@@ -107,6 +107,7 @@ export const Navbar = ({ onToggleSidebar }) => {
           </svg>
           Secured
         </div>
+        {<NotificationBell />}
 
         {/* User Identity Segment */}
         <div className="flex items-center gap-3 pl-4 border-l border-slate-200">

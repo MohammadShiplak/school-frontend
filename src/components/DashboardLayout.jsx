@@ -1,8 +1,9 @@
 // src/components/DashboardLayout.jsx
-import { useState } from "react";
+import { use, useState } from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Navbar from "./Navbar.";
+import useSignalR from "../hooks/useSignalR";
 
 const DashboardLayout = () => {
   // useState(true) = sidebar starts open by default
@@ -10,6 +11,8 @@ const DashboardLayout = () => {
 
   // Function to flip isOpen true↔false
   const handleToggle = () => setIsOpen((prev) => !prev);
+
+  useSignalR(); // Custom hook to manage SignalR connection and notifications
 
   return (
     // Body now uses a cleaner slate-50 background
