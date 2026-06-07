@@ -30,6 +30,7 @@ import {
   updateHomework,
   deleteHomework,
   getHomeworkByTeacher,
+  deleteHomeworkFile,
 } from "../../api/homeworkAPI";
 // ⚠️ Adjust the import path to match YOUR project structure.
 //    In your project: src/api/homeworkAPI.js
@@ -132,7 +133,20 @@ export const removeHomework = createAsyncThunk(
     }
   },
 );
-
+export const removeHomeworkFile = createAsyncThunk(
+  "homework/removeFile",
+  async (homeworkId, { rejectWithValue }) => {
+    try {
+      await deleteHomeworkFile(homeworkId);
+      // WHY return homeworkId:
+      //   We need the ID to find and update the right item in state.
+      //   We set its filePath and fileName to null.
+      return homeworkId;
+    } catch (error) {
+      return rejectWithValue("Failed to delete homework file.");
+    }
+  },
+);
 // ═══════════════════════════════════════════════════════════════
 //  THE SLICE
 //  ─────────────────────────────────────────────────────────────
@@ -277,6 +291,15 @@ const homeworkSlice = createSlice({
       .addCase(removeHomework.rejected, (state, action) => {
         state.deleting = false;
         state.error = action.payload;
+      })
+      .addCase(removeHomeworkFile.fulfilled, (state, action) => {
+        // action.payload = homeworkId (we returned it from the thunk)
+        const index = state.homeworks.findIndex((h) => h.id === action.payload);
+        if (index !== -1) {
+          // Set filePath and fileName to null to reflect deletion in UI
+          state.homeworks[index].filePath = null;
+          state.homeworks[index].fileName = null;
+        }
       });
   },
 });

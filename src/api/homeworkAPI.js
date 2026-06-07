@@ -1,4 +1,3 @@
-import axios from "axios";
 import axiosInstance from "./axiosInstance";
 
 export const getAllHomework = (pageNumber = 1, pageSize = 10) => {
@@ -27,15 +26,49 @@ export const getHomeworkById = (id) => {
 //   but Axios sets that automatically when you pass a JS object as the body.
 //   We only need to add the Authorization header.
 export const addHomework = (homeworkData) => {
-  return axiosInstance.post("/api/homework", homeworkData);
+  const formData = buildHomewokFormData(homeworkData);
+
+  return axiosInstance.post("/api/homework", formData);
 };
 
 // PUT /api/homework/42
 export const updateHomework = (id, homeworkData) => {
-  return axiosInstance.put(`/api/homework/${id}`, homeworkData);
+  const formData = buildHomewokFormData(homeworkData);
+
+  return axiosInstance.put(`/api/homework/${id}`, formData);
 };
 
 // DELETE /api/homework/42
 export const deleteHomework = (id) => {
   return axiosInstance.delete(`/api/homework/${id}`);
+};
+export const deleteHomeworkFile = (id) => {
+  return axiosInstance.delete(`/api/Homework/${id}/file`);
+};
+
+const buildHomewokFormData = (homeworkData) => {
+  const formData = new FormData();
+
+  formData.append("teacherId", String(homeworkData.teacherId));
+  formData.append("title", String(homeworkData.title));
+  formData.append("dueDate", String(homeworkData.dueDate));
+  formData.append("status", String(homeworkData.status));
+
+  if (homeworkData.classId) {
+    formData.append("classId", String(homeworkData.classId));
+  }
+
+  if (homeworkData.subjectId) {
+    formData.append("subjectId", String(homeworkData.subjectId));
+  }
+
+  if (homeworkData.description) {
+    formData.append("description", homeworkData.description);
+  }
+
+  if (homeworkData.assignmentFile instanceof File) {
+    formData.append("assignmentFile", homeworkData.assignmentFile);
+  }
+
+  return formData;
 };
