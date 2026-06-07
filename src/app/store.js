@@ -5,6 +5,7 @@ import teacherReducer from "../features/teachers/teacherSlice";
 import attendanceReducer from "../features/attendance/attendanceSlice";
 import homeworkReducer from "../features/homework/homeworkSlice";
 import notificationReducer from "../features/notifications/notificationSlice";
+import attendanceAlertReducer from "../features/attendanceAlert/attendanceAlertSlice";
 export const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -13,6 +14,7 @@ export const store = configureStore({
     attendance: attendanceReducer,
     homework: homeworkReducer,
     notifications: notificationReducer,
+    attendanceAlerts: attendanceAlertReducer,
   },
 });
 
