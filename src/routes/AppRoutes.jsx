@@ -11,6 +11,7 @@ import AttendancePage from "../pages/AttendancePage";
 import HomeworkPage from "../pages/HomeworkPage";
 import AttendanceAlertPage from "../pages/AttendanceAlertPage";
 import CourseProgressPage from "../pages/CourseProgressPage";
+import ClassRosterPage from "../pages/ClassRosterPage";
 const AppRoutes = () => {
   return (
     <Routes>
@@ -23,6 +24,7 @@ const AppRoutes = () => {
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/students" element={<StudentsPage />} />
         <Route path="/teachers" element={<TeacherPage />} />
+        <Route path="/classes" element={<ClassRosterPage />} />
         <Route path="/homework" element={<HomeworkPage />} />
         <Route path="/progress" element={<CourseProgressPage />} />
       </Route>{" "}
