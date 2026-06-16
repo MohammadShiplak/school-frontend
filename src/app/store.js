@@ -6,6 +6,7 @@ import attendanceReducer from "../features/attendance/attendanceSlice";
 import homeworkReducer from "../features/homework/homeworkSlice";
 import notificationReducer from "../features/notifications/notificationSlice";
 import attendanceAlertReducer from "../features/attendanceAlert/attendanceAlertSlice";
+import progressReducer from "../features/progress/progressSlice";
 export const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -15,6 +16,7 @@ export const store = configureStore({
     homework: homeworkReducer,
     notifications: notificationReducer,
     attendanceAlerts: attendanceAlertReducer,
+    progress: progressReducer,
   },
 });
 
