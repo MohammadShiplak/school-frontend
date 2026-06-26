@@ -193,14 +193,13 @@ const navItems = [
   { path: "/students", label: "Students", Icon: StudentsIcon },
   { path: "/teachers", label: "Teachers", Icon: TeachersIcon },
   { path: "/classes", label: "Classes", Icon: ClassesIcon },
-  { path: "/subjects", label: "Subjects", Icon: SubjectsIcon },
-  { path: "/courses", label: "Courses", Icon: CoursesIcon },
+
+  { path: "/progress", label: "Courses", Icon: CoursesIcon },
   { path: "/departments", label: "Departments", Icon: DepartmentsIcon },
   { path: "/accesscards", label: "Access Cards", Icon: AccessCardsIcon },
   { path: "/attendance", label: "Attendance", Icon: AttendanceIcon },
   { path: "/homework", label: "Homework", Icon: HomeworkIcon }, // ✅ ADD THIS
   { path: "/alerts", label: "Absence Alerts", Icon: AttendanceIcon },
-  { path: "/progress", label: "Progress", Icon: ProgressIcon },
 ];
 
 /**

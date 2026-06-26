@@ -8,6 +8,8 @@ import notificationReducer from "../features/notifications/notificationSlice";
 import attendanceAlertReducer from "../features/attendanceAlert/attendanceAlertSlice";
 import progressReducer from "../features/progress/progressSlice";
 import enrollmentReducer from "../features/enrollment/enrollmentSlice";
+import classSubjectReducer from "../features/classSubject/classSubjectSlice";
+
 export const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -19,6 +21,7 @@ export const store = configureStore({
     attendanceAlerts: attendanceAlertReducer,
     progress: progressReducer,
     enrollment: enrollmentReducer,
+    classSubject: classSubjectReducer, // 👈 MUST exist
   },
 });
 

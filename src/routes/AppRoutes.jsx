@@ -5,13 +5,14 @@ import DashboardPage from "../pages/DashboardPage";
 import RegisterPage from "../pages/RegisterPage";
 import DashboardLayout from "../components/DashboardLayout";
 import StudentsPage from "../pages/StudentsPage";
-import TeacherForm from "../components/teachers/TeacherForm";
+
 import TeacherPage from "../pages/TeachersPage";
 import AttendancePage from "../pages/AttendancePage";
 import HomeworkPage from "../pages/HomeworkPage";
 import AttendanceAlertPage from "../pages/AttendanceAlertPage";
 import CourseProgressPage from "../pages/CourseProgressPage";
 import ClassRosterPage from "../pages/ClassRosterPage";
+import ClassSubjectPage from "../pages/ClassSubjectPage";
 const AppRoutes = () => {
   return (
     <Routes>
@@ -25,6 +26,8 @@ const AppRoutes = () => {
         <Route path="/students" element={<StudentsPage />} />
         <Route path="/teachers" element={<TeacherPage />} />
         <Route path="/classes" element={<ClassRosterPage />} />
+        <Route path="/subjects" element={<Navigate to="/classes" replace />} />
+        <Route path="/subjects/:classId" element={<ClassSubjectPage />} />
         <Route path="/homework" element={<HomeworkPage />} />
         <Route path="/progress" element={<CourseProgressPage />} />
       </Route>{" "}

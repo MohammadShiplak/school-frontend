@@ -6,6 +6,7 @@
 
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   fetchStudentsByClass,
   createEnrollment,
@@ -17,6 +18,7 @@ import {
   selectEnrollmentDeleting,
   clearEnrollmentError,
 } from "../features/enrollment/enrollmentSlice";
+import { getClasses } from "../api/classAPI";
 
 // ─────────────────────────────────────────────────────────────────
 // CAPACITY BAR
@@ -56,10 +58,6 @@ const CapacityBar = ({ current, capacity }) => {
     </div>
   );
 };
-
-// ─────────────────────────────────────────────────────────────────
-// ENROLL FORM (inline, no separate modal for simplicity)
-// ─────────────────────────────────────────────────────────────────
 const EnrollForm = ({ classId, onSuccess }) => {
   const dispatch = useDispatch();
   const submitting = useSelector(selectEnrollmentSubmitting);
@@ -154,27 +152,75 @@ const EnrollForm = ({ classId, onSuccess }) => {
     </div>
   );
 };
-
-// ─────────────────────────────────────────────────────────────────
-// MAIN PAGE
-// ─────────────────────────────────────────────────────────────────
 const ClassRosterPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  // WHY hardcode classId = 1 for now:
-  //   In production you'd get this from useParams() (React Router).
-  //   Example: const { classId } = useParams();
-  //   For learning, we start with a fixed value.
-  const classId = 1;
+  const [classes, setClasses] = useState([]);
+  const [classesLoading, setClassesLoading] = useState(false);
+  const [classesError, setClassesError] = useState(null);
+  const [selectedClassId, setSelectedClassId] = useState(1);
+
+  const classId = selectedClassId;
 
   const enrollments = useSelector(selectEnrollmentsByClass(classId));
   const loading = useSelector(selectEnrollmentLoading);
   const deleting = useSelector(selectEnrollmentDeleting);
 
   // ── Derive capacity info from first enrollment (all have same class data)
-  const capacity = enrollments[0]?.capacity ?? 0;
-  const className = enrollments[0]?.className ?? `Class ${classId}`;
+  const selectedClass = classes.find(
+    (item) => Number(item.id ?? item.Id) === classId,
+  );
+  const capacity =
+    enrollments[0]?.capacity ??
+    selectedClass?.capacity ??
+    selectedClass?.Capacity ??
+    0;
+  const className =
+    enrollments[0]?.className ??
+    selectedClass?.name ??
+    selectedClass?.Name ??
+    `Class ${classId}`;
   const currentCount = enrollments.length;
+
+  useEffect(() => {
+    let ignore = false;
+
+    const loadClasses = async () => {
+      try {
+        setClassesLoading(true);
+        setClassesError(null);
+
+        const response = await getClasses();
+        const payload = response.data;
+        const list = Array.isArray(payload)
+          ? payload
+          : (payload?.data ?? payload?.Data ?? []);
+
+        if (ignore) return;
+
+        setClasses(list);
+
+        if (list.length > 0) {
+          setSelectedClassId(Number(list[0].id ?? list[0].Id));
+        }
+      } catch {
+        if (!ignore) {
+          setClassesError("Could not load classes. Showing Class 1.");
+        }
+      } finally {
+        if (!ignore) {
+          setClassesLoading(false);
+        }
+      }
+    };
+
+    loadClasses();
+
+    return () => {
+      ignore = true;
+    };
+  }, []);
 
   useEffect(() => {
     dispatch(fetchStudentsByClass(classId));
@@ -187,14 +233,54 @@ const ClassRosterPage = () => {
   return (
     <div className="min-h-screen bg-slate-50 p-6 md:p-8 space-y-6">
       {/* ── HEADER ─────────────────────────────────────────────── */}
-      <div>
-        <h1 className="text-2xl font-bold text-slate-900">
-          {className} — Class Roster
-        </h1>
-        <p className="text-sm text-slate-500 mt-1">
-          Manage student enrollments for this class.
-        </p>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-900">
+            {className} — Class Roster
+          </h1>
+          <p className="text-sm text-slate-500 mt-1">
+            Manage student enrollments for this class.
+          </p>
+        </div>
+
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+          <select
+            value={classId}
+            onChange={(e) => setSelectedClassId(Number(e.target.value))}
+            disabled={classesLoading || classes.length === 0}
+            className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 disabled:opacity-60"
+          >
+            {classes.length === 0 ? (
+              <option value={classId}>Class {classId}</option>
+            ) : (
+              classes.map((item) => {
+                const id = Number(item.id ?? item.Id);
+                const name = item.name ?? item.Name ?? `Class ${id}`;
+
+                return (
+                  <option key={id} value={id}>
+                    {name}
+                  </option>
+                );
+              })
+            )}
+          </select>
+
+          <button
+            type="button"
+            onClick={() => navigate(`/subjects/${classId}`)}
+            className="inline-flex items-center justify-center rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm shadow-indigo-100 transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
+          >
+            Manage Subjects
+          </button>
+        </div>
       </div>
+
+      {classesError && (
+        <div className="rounded-xl border border-amber-100 bg-amber-50 px-4 py-3 text-sm font-medium text-amber-700">
+          {classesError}
+        </div>
+      )}
 
       {/* ── CAPACITY CARD ───────────────────────────────────────── */}
       <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-5">
