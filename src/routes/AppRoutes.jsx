@@ -13,6 +13,7 @@ import AttendanceAlertPage from "../pages/AttendanceAlertPage";
 import CourseProgressPage from "../pages/CourseProgressPage";
 import ClassRosterPage from "../pages/ClassRosterPage";
 import ClassSubjectPage from "../pages/ClassSubjectPage";
+import DepartmentsPage from "../pages/DepartmentsPage";
 const AppRoutes = () => {
   return (
     <Routes>
@@ -22,6 +23,7 @@ const AppRoutes = () => {
         <Route path="/alerts" element={<AttendanceAlertPage />} />
         <Route path="/attendance" element={<AttendancePage />} />
         <Route path="/dashboard" element={<DashboardLayout />} />
+        <Route path="/departments" element={<DepartmentsPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/students" element={<StudentsPage />} />
         <Route path="/teachers" element={<TeacherPage />} />

@@ -194,7 +194,7 @@ const navItems = [
   { path: "/teachers", label: "Teachers", Icon: TeachersIcon },
   { path: "/classes", label: "Classes", Icon: ClassesIcon },
 
-  { path: "/progress", label: "Courses", Icon: CoursesIcon },
+  { path: "/progress", label: "Courses", Icon: ProgressIcon },
   { path: "/departments", label: "Departments", Icon: DepartmentsIcon },
   { path: "/accesscards", label: "Access Cards", Icon: AccessCardsIcon },
   { path: "/attendance", label: "Attendance", Icon: AttendanceIcon },

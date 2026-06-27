@@ -1,3 +1,4 @@
+// src/store/store.js
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "../features/auth/authSlice";
 import studentReducer from "../features/students/studentSlice";
@@ -5,10 +6,16 @@ import teacherReducer from "../features/teachers/teacherSlice";
 import attendanceReducer from "../features/attendance/attendanceSlice";
 import homeworkReducer from "../features/homework/homeworkSlice";
 import notificationReducer from "../features/notifications/notificationSlice";
-import attendanceAlertReducer from "../features/attendanceAlert/attendanceAlertSlice";
-import progressReducer from "../features/progress/progressSlice";
-import enrollmentReducer from "../features/enrollment/enrollmentSlice";
-import classSubjectReducer from "../features/classSubject/classSubjectSlice";
+
+// ── NEW: Department reducer ──────────────────────────────────────────────
+// WHY add it here?
+//   configureStore is the SINGLE place that registers all slices.
+//   The key name "departments" here is what selectors reference:
+//     state.departments.departments  ← matches selectDepartments
+//     state.departments.loading      ← matches selectDepartmentsLoading
+//   If the key here doesn't match what the selector reads, you get undefined.
+//   This was key learning #3 from your project history — Redux store key consistency.
+import departmentReducer from "../features/departments/departmentSlice";
 
 export const store = configureStore({
   reducer: {
@@ -18,10 +25,7 @@ export const store = configureStore({
     attendance: attendanceReducer,
     homework: homeworkReducer,
     notifications: notificationReducer,
-    attendanceAlerts: attendanceAlertReducer,
-    progress: progressReducer,
-    enrollment: enrollmentReducer,
-    classSubject: classSubjectReducer, // 👈 MUST exist
+    departments: departmentReducer, // ← registered as "departments"
   },
 });
 

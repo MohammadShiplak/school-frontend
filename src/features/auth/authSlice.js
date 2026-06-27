@@ -87,7 +87,7 @@ const authSlice = createSlice({
     token: localStorage.getItem("token") || null,
 
     user: localStorage.getItem("token")
-      ? decodeToken(localStorage.getItem("toke"))
+      ? decodeToken(localStorage.getItem("token"))
       : null,
 
     //-- Register state
