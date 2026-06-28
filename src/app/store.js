@@ -16,7 +16,9 @@ import notificationReducer from "../features/notifications/notificationSlice";
 //   If the key here doesn't match what the selector reads, you get undefined.
 //   This was key learning #3 from your project history — Redux store key consistency.
 import departmentReducer from "../features/departments/departmentSlice";
-
+import DashboardReducer from "../features/Dashboard/DashboardSlice";
+import attendanceAlertSlicereducer from "../features/attendanceAlert/attendanceAlertSlice";
+import progressSlicereducer from "../features/progress/progressSlice";
 export const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -26,6 +28,9 @@ export const store = configureStore({
     homework: homeworkReducer,
     notifications: notificationReducer,
     departments: departmentReducer, // ← registered as "departments"
+    dashboard: DashboardReducer,
+    attendanceAlerts: attendanceAlertSlicereducer,
+    progress: progressSlicereducer,
   },
 });
 
