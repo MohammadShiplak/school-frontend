@@ -195,7 +195,6 @@ const navItems = [
   { path: "/classes", label: "Classes", Icon: ClassesIcon },
   { path: "/progress", label: "Courses", Icon: ProgressIcon },
   { path: "/departments", label: "Departments", Icon: DepartmentsIcon },
-  { path: "/accesscards", label: "Access Cards", Icon: AccessCardsIcon },
   { path: "/attendance", label: "Attendance", Icon: AttendanceIcon },
   { path: "/homework", label: "Homework", Icon: HomeworkIcon }, // ✅ ADD THIS
   { path: "/alerts", label: "Absence Alerts", Icon: AttendanceIcon },

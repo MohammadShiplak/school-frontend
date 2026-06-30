@@ -1,23 +1,6 @@
 // src/api/departmentsAPI.js
 import axiosInstance from "./axiosInstance";
 
-// ── WHY a dedicated API file? ─────────────────────────────────────────────
-// This file is the ONLY place that knows:
-//   - The backend URL (/api/Department)
-//   - Which HTTP verb to use (GET, POST, PUT, DELETE)
-//   - What parameters to send
-//
-// Slices and components CALL these functions.
-// If the URL changes (e.g. /api/Department → /api/departments),
-// you fix it in ONE place — not scattered across your app.
-// This is the Single Responsibility Principle applied to API calls.
-// ─────────────────────────────────────────────────────────────────────────
-
-// GET /api/Department
-// WHY no pagination for departments?
-//   Departments are small, stable data (10–20 records max).
-//   Loading them all at once is fine — no need for the overhead of pagination.
-//   Compare: Students might be 10,000+, so they need pagination.
 export const getAllDepartments = () => axiosInstance.get("/api/Department");
 
 // GET /api/Department/:id

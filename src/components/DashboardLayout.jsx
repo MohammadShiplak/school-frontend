@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Navbar from "./Navbar.";
 import useSignalR from "../hooks/useSignalR";
-
+import ChatBot from "./chatbot/ChatBot";
 const DashboardLayout = () => {
   // useState(true) = sidebar starts open by default
   const [isOpen, setIsOpen] = useState(true);
@@ -36,6 +36,7 @@ const DashboardLayout = () => {
 
           <Outlet />
         </main>
+        <ChatBot />
       </div>
     </div>
   );
