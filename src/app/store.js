@@ -12,6 +12,7 @@ import attendanceAlertSlicereducer from "../features/attendanceAlert/attendanceA
 import progressSlicereducer from "../features/progress/progressSlice";
 import enrollmentSliceReducer from "../features/enrollment/enrollmentSlice";
 import chatbotReducer from "../features/chatbot/chatbotSlice";
+import classSubjectSliceReducer from "../features/classSubject/classSubjectSlice";
 export const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -26,6 +27,7 @@ export const store = configureStore({
     progress: progressSlicereducer,
     enrollment: enrollmentSliceReducer,
     chatbot: chatbotReducer,
+    classSubject: classSubjectSliceReducer, // ← registered as "classSubject"
   },
 });
 
